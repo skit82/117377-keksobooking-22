@@ -8,7 +8,7 @@ const CHECKOUT_HOURS =['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const OFFERS_COUNT = 10;
 
-const createOffer = function() {
+const createOffer = function(i) {
   const locationX = getRandomFloat(35.65000, 35.70000);
   const locationY = getRandomFloat(139.7000, 139.80000);
   return {
@@ -56,6 +56,7 @@ const getIntegerValue = function(arr) {
 };
 
 const addLeadingZero = (num) => '0${num}'.slice(-2);
+alert(addLeadingZero);
 
 const getRandomArrayElements = function (items) {
   const elemets = [];
