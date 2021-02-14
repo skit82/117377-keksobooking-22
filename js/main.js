@@ -1,7 +1,7 @@
 'use strict'
 
 const TITLES = ['Уютная квартира', 'Неуютная квартира', 'Красивый гостевой домик', 'Красивый гостевой домик у моря'];
-const DESCRIPTION = ['Чистая и светлая', 'С хорошим видом из окон', 'Темное, не комфортное'];
+const DESCRIPTIONS = ['Чистая и светлая', 'С хорошим видом из окон', 'Темное, не комфортное'];
 const TYPES = ['palace', 'flat', 'house', 'bungalow'];
 const CHECKIN_HOURS = ['12:00', '13:00', '14:00'];
 const CHECKOUT_HOURS =['12:00', '13:00', '14:00'];
@@ -13,7 +13,7 @@ const createOffer = function(i) {
   const locationY = getRandomFloat(139.7000, 139.80000);
   return {
     author: {
-      avatar: 'img/avatars/user0' + addLeadingZero(i) + '.png'
+      avatar: 'img/avatars/user0' + addLeadingZero(i) + '.png',
     },
     offer: {
       title: TITLES[i],
@@ -25,13 +25,13 @@ const createOffer = function(i) {
       checkin: getIntegerValue(CHECKIN_HOURS),
       checkout: getIntegerValue(CHECKOUT_HOURS),
       features: getRandomArrayElements(FEATURES),
-      description: DESCRIPTION[i],
-      photos: []
+      description: DESCRIPTIONS[i],
+      photos: [],
     },
     location: {
       x: locationX,
-      y: locationY
-    }
+      y: locationY,
+    },
   };
 };
 
