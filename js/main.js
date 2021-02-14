@@ -24,7 +24,7 @@ const createOffer = function(i) {
       guests: getRandomInteger(1, 25),
       checkin: getIntegerValue(CHECKIN_HOURS),
       checkout: getIntegerValue(CHECKOUT_HOURS),
-      features: getRandomArrayElements(FEATURES),
+      features: getRandomArrayElements(),
       description: DESCRIPTIONS[i],
       photos: [],
     },
@@ -55,12 +55,11 @@ const getIntegerValue = function(arr) {
   return arr[getRandomInteger(0, arr.length - 1)];
 };
 
-const addLeadingZero = (num) => '0${num}'.slice(-2);
-alert(addLeadingZero);
+const addLeadingZero = (num) => `0${num}`.slice(-2);
 
-const getRandomArrayElements = function (items) {
+const getRandomArrayElements = function () {
   const elemets = [];
-  for (const i = 0; i < FEATURES.length; i++) {
+  for (let i = 0; i < FEATURES.length; i++) {
     if (Math.random() > 0.5) {
       elemets.push(FEATURES[i]);
     }
@@ -69,4 +68,6 @@ const getRandomArrayElements = function (items) {
 };
 
 const getOffers = new Array(OFFERS_COUNT).fill(null).map(() => createOffer());
+
+alert(getOffers);
 
