@@ -13,19 +13,19 @@ const createOffer = function(i) {
   const locationY = getRandomFloat(139.7000, 139.80000);
   return {
     author: {
-      avatar: 'img/avatars/user0' + addLeadingZero(i) + '.png',
+      avatar: 'img/avatars/user' + addLeadingZero(i) + '.png',
     },
     offer: {
-      title: TITLES[i],
+      title: getRandomElement(TITLES),
       address: locationX + ',' + locationY,
       price: getRandomInteger(1000, 1000000),
-      type: getIntegerValue(TYPES),
+      type: getRandomElement(TYPES),
       rooms: getRandomInteger(1, 5),
       guests: getRandomInteger(1, 25),
-      checkin: getIntegerValue(CHECKIN_HOURS),
-      checkout: getIntegerValue(CHECKOUT_HOURS),
-      features: getRandomArrayElements(),
-      description: DESCRIPTIONS[i],
+      checkin: getRandomElement(CHECKIN_HOURS),
+      checkout: getRandomElement(CHECKOUT_HOURS),
+      features: getRandomArrayElements(FEATURES),
+      description: getRandomElement(DESCRIPTIONS),
       photos: [],
     },
     location: {
@@ -35,7 +35,7 @@ const createOffer = function(i) {
   };
 };
 
-const getRandomInteger = function (min, max) {
+const getRandomInteger = (min, max) => {
   if (max <= min) {
     throw new Error('Max number less or equal number min');
   }else {
@@ -43,7 +43,7 @@ const getRandomInteger = function (min, max) {
   }
 };
 
-const getRandomFloat = function (min, max, precision = 5) {
+const getRandomFloat = (min, max, precision = 5) => {
   if (max <= min) {
     throw new Error('Max number less or equal number min');
   }else {
@@ -51,23 +51,24 @@ const getRandomFloat = function (min, max, precision = 5) {
   }
 };
 
-const getIntegerValue = function(arr) {
-  return arr[getRandomInteger(0, arr.length - 1)];
+const getRandomElement = (elements) => {
+  return elements[getRandomInteger(0, elements.length - 1)];
 };
 
 const addLeadingZero = (num) => `0${num}`.slice(-2);
 
-const getRandomArrayElements = function () {
+const getRandomArrayElements = (items) => {
   const elemets = [];
-  for (let i = 0; i < FEATURES.length; i++) {
+  for (let i = 0; i < items.length; i++) {
     if (Math.random() > 0.5) {
-      elemets.push(FEATURES[i]);
+      elemets.push(items[i]);
     }
   }
   return elemets;
 };
 
-const getOffers = new Array(OFFERS_COUNT).fill(null).map(() => createOffer());
-
-alert(getOffers);
-
+const getOffers = (count) => {
+  return new Array(count).fill(null).map(() => createOffer());
+}
+const offers = getOffers(OFFERS_COUNT);
+alert(offers);
