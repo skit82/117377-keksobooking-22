@@ -42,5 +42,6 @@ const getOffers = (count) => {
   return new Array(count).fill(null).map(() => createOffer());
 }
 const offers = getOffers(OFFERS_COUNT);
-
+// getOffers(OFFERS_COUNT);
 export {offers};
+// export {getOffers};

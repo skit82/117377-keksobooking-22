@@ -1,3 +1,6 @@
-import {offers} from './data.js';
+// import {offers} from './data.js';
+import './data.js';
+import './card.js';
 
-alert(offers);
+// alert(offers);
+// alert(getOffers());
