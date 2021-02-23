@@ -27,7 +27,7 @@ const createPhotoElement = (item) => {
   return photoItem;
 }
 
-const collectionFromArray = (array, render) => {
+const createAndFillFragment = (array, render) => {
   const fragment = document.createDocumentFragment();
   array.forEach((item) => {
     fragment.appendChild(render(item));
@@ -35,7 +35,7 @@ const collectionFromArray = (array, render) => {
   return fragment;
 }
 
-const cardOffers = ({offer, author}) => {
+const showPopup = ({offer, author}) => {
   const cardElement = cardTemplate.cloneNode(true);
   const featuresItem = cardElement.querySelector('.popup__features');
   const photosContainer = cardElement.querySelector('.popup__photos');
@@ -61,12 +61,12 @@ const cardOffers = ({offer, author}) => {
   cardElement.querySelector('.popup__text--capacity').textContent = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
   featuresItem.innerHTML = '';
-  featuresItem.appendChild(collectionFromArray(offer.features, createFeatureItem));
+  featuresItem.appendChild(createAndFillFragment(offer.features, createFeatureItem));
   cardElement.querySelector('.popup__description').textContent = offer.description;
   photosContainer.innerHTML = '';
-  photosContainer.appendChild(collectionFromArray(offer.photos, createPhotoElement));
+  photosContainer.appendChild(createAndFillFragment(offer.photos, createPhotoElement));
   cardElement.querySelector('.popup__avatar').src = author.avatar;
   cardFragment.appendChild(cardElement);
+  mapCardElement.appendChild(cardFragment);
 };
-cardOffers(offers[0]);
-mapCardElement.appendChild(cardFragment);
+showPopup(offers[0]);
