@@ -11,12 +11,12 @@ const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const OFFERS_COUNT = 10;
 
-const createOffer = function(i) {
+const createOffer = function() {
   const locationX = getRandomFloat(35.65000, 35.70000);
   const locationY = getRandomFloat(139.7000, 139.80000);
   return {
     author: {
-      avatar: 'img/avatars/user' + addLeadingZero(i) + '.png',
+      avatar: 'img/avatars/user' + addLeadingZero(getRandomInteger(1, 8)) + '.png',
     },
     offer: {
       title: getRandomElement(TITLES),
@@ -42,6 +42,5 @@ const getOffers = (count) => {
   return new Array(count).fill(null).map(() => createOffer());
 }
 const offers = getOffers(OFFERS_COUNT);
-// getOffers(OFFERS_COUNT);
+
 export {offers};
-// export {getOffers};
