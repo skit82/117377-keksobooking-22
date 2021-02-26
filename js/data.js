@@ -4,7 +4,7 @@ import {getRandomInteger, getRandomFloat, getRandomElement, getRandomArrayElemen
 
 const TITLES = ['Уютная квартира', 'Неуютная квартира', 'Красивый гостевой домик', 'Красивый гостевой домик у моря'];
 const DESCRIPTIONS = ['Чистая и светлая', 'С хорошим видом из окон', 'Темное, не комфортное'];
-const TYPES = ['palace', 'flat', 'house', 'bungalow'];
+const TYPES = ['bungalow', 'flat', 'house', 'palace'];
 const CHECKIN_HOURS = ['12:00', '13:00', '14:00'];
 const CHECKOUT_HOURS =['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
