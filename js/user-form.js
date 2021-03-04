@@ -9,6 +9,7 @@ const timeOut = document.querySelector('#timeout');
 const type = document.querySelector('#type');
 const priceInput = document.querySelector('#price');
 
+
 const synchronizeFields = (firstElement, secondElement, firstValue, secondValue, callback) => {
   const firstElementChangeHandler = () => {
     const newFirstValue = secondValue[firstValue.indexOf(firstElement.value)];

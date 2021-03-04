@@ -1,5 +1,5 @@
 'use strict'
-import {offers} from './data.js'
+// import {offers} from './data.js'
 
 const IMG_WIDTH = 45;
 const IMG_HEIGHT = 40;
@@ -35,7 +35,7 @@ const createAndFillFragment = (array, render) => {
   return fragment;
 }
 
-const showPopup = ({offer, author}) => {
+const showPopup = ({author, offer}) => {
   const cardElement = cardTemplate.cloneNode(true);
   const featuresItem = cardElement.querySelector('.popup__features');
   const photosContainer = cardElement.querySelector('.popup__photos');
@@ -69,4 +69,6 @@ const showPopup = ({offer, author}) => {
   cardFragment.appendChild(cardElement);
   mapCardElement.appendChild(cardFragment);
 };
-showPopup(offers[0]);
+
+// showPopup(offers[0]);
+// export (showPopup(offers));
