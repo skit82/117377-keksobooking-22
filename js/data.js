@@ -12,15 +12,15 @@ const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0
 const OFFERS_COUNT = 10;
 
 const createOffer = function() {
-  const locationX = getRandomFloat(35.65000, 35.70000);
-  const locationY = getRandomFloat(139.7000, 139.80000);
+  const lat = getRandomFloat(35.65000, 35.70000);
+  const lng = getRandomFloat(139.7000, 139.80000);
   return {
     author: {
       avatar: 'img/avatars/user' + addLeadingZero(getRandomInteger(1, 8)) + '.png',
     },
     offer: {
       title: getRandomElement(TITLES),
-      address: locationX + ',' + locationY,
+      address: lat + ',' + lng,
       price: getRandomInteger(1000, 1000000),
       type: getRandomElement(TYPES),
       rooms: getRandomInteger(1, 5),
@@ -32,8 +32,8 @@ const createOffer = function() {
       photos: getRandomArrayElements(PHOTOS),
     },
     location: {
-      x: locationX,
-      y: locationY,
+      lat,
+      lng,
     },
   };
 };
