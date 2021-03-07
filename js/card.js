@@ -1,14 +1,14 @@
 'use strict'
-import {offers} from './data.js'
+// import {offers} from './data.js'
 
 const IMG_WIDTH = 45;
 const IMG_HEIGHT = 40;
 const IMG_ALT = 'Фотография жилья';
 
-const mapCardElement = document.querySelector('#map-canvas');
+// const mapCardElement = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card').content;
 
-const cardFragment = document.createDocumentFragment();
+// const cardFragment = document.createDocumentFragment();
 
 const createFeatureItem = (item) => {
   const featureItem = document.createElement('li');
@@ -35,7 +35,7 @@ const createAndFillFragment = (array, render) => {
   return fragment;
 }
 
-const showPopup = ({offer, author}) => {
+const showPopup = ({author,offer}) => {
   const cardElement = cardTemplate.cloneNode(true);
   const featuresItem = cardElement.querySelector('.popup__features');
   const photosContainer = cardElement.querySelector('.popup__photos');
@@ -66,7 +66,11 @@ const showPopup = ({offer, author}) => {
   photosContainer.innerHTML = '';
   photosContainer.appendChild(createAndFillFragment(offer.photos, createPhotoElement));
   cardElement.querySelector('.popup__avatar').src = author.avatar;
-  cardFragment.appendChild(cardElement);
-  mapCardElement.appendChild(cardFragment);
+  // cardFragment.appendChild(cardElement);
+  // mapCardElement.appendChild(cardFragment);
+
+  return cardElement;
 };
-showPopup(offers[0]);
+
+// export (showPopup(offers));
+export {showPopup};
