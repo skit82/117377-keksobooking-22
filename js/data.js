@@ -11,7 +11,7 @@ const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const OFFERS_COUNT = 10;
 
-const createOffer = function() {
+const createOffer = () => {
   const lat = getRandomFloat(35.65000, 35.70000);
   const lng = getRandomFloat(139.7000, 139.80000);
   return {

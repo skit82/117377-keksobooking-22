@@ -13,12 +13,6 @@ const disableForm = () => {
   fieldsetForm.forEach((item) => {
     item.disabled = true;
   });
-  // for (let i = 0; i < fieldsetForm.length; i++) {
-  // fieldsetForm[i].disabled = true;
-  // }
-  // for (let i = 0; i < selectForm.length; i++) {
-  // selectForm[i].disabled = true;
-  // }
   selectForm.forEach((item) => {
     item.disabled = true;
   });
@@ -33,19 +27,12 @@ const enableForm = () => {
   adForm.classList.remove('ad-form--disabled');
   mapFilter.classList.remove('ad-form--disabled');
   fieldsetForm.forEach((item) => {
-    item.removeAttribute('disabled');
+    item.disabled = false;
   });
   selectForm.forEach((item) => {
-    item.removeAttribute('disabled');
+    item.disabled = false;
   });
-  // for (let i = 0; i < fieldsetForm.length; i++) {
-  // fieldsetForm[i].removeAttribute('disabled');
-  // }
-  // for (let i = 0; i < selectForm.length; i++) {
-  // selectForm[i].removeAttribute('disabled');
-  // }
 };
-enableForm();
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -71,8 +58,8 @@ const mainPinIcon = L.icon ({
 
 const mainPinMarker = L.marker (
   {
-    lat: 35.6895,
-    lng: 139.692,
+    lat: 35.68950,
+    lng: 139.69171,
   },
   {
     draggable: true,
@@ -82,13 +69,14 @@ const mainPinMarker = L.marker (
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('dragend', function () {
-  document.getElementById('address').value = '' + mainPinMarker.getLatLng().lat + ', ' + '' + mainPinMarker.getLatLng().lng;
-});
+const precisionFloat = 5;
+const inputAdress = document.querySelector('#address');
+inputAdress.value = `${(mainPinMarker._latlng.lat).toFixed(precisionFloat)}, ${(mainPinMarker._latlng.lng).toFixed(precisionFloat)}`
 
-// mainPinMarker.on('moveend', (evt) => {
-// evt.target.getLatLng();
-// });
+mainPinMarker.on('moveend', (evt) => {
+  const latlng = evt.target.getLatLng();
+  inputAdress.value = `${latlng.lat.toFixed(precisionFloat)}, ${latlng.lng.toFixed(precisionFloat)}`;
+});
 
 const pointsOffers = offers;
 
