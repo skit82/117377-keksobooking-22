@@ -1,16 +1,18 @@
 'use strict'
 
 const TIMES = ['12:00', '13:00', '14:00'];
+const ROOMS = ['100', '3', '2', '1'];
+const CAPACITIES = ['0', '3', '2', '1'];
 const TYPES = ['bungalow', 'flat', 'house', 'palace'];
 const PRICES = [0, 1000, 5000, 10000];
 
-const timeIN = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
-const type = document.querySelector('#type');
-const priceInput = document.querySelector('#price');
-const title = document.querySelector('#title');
-const roomCapacity = document.querySelector('#capacity');
-const roomNumber = document.querySelector('#room_number');
+const timeInElement = document.querySelector('#timein');
+const timeOutElement = document.querySelector('#timeout');
+const typeElement = document.querySelector('#type');
+const priceInputElement = document.querySelector('#price');
+const titleElement = document.querySelector('#title');
+const roomCapacityElement = document.querySelector('#capacity');
+const roomNumberElement = document.querySelector('#room_number');
 
 
 const synchronizeFields = (firstElement, secondElement, firstValue, secondValue, callback) => {
@@ -31,49 +33,54 @@ const syncValue = (element, value) => {
   element.value = value;
 };
 
-synchronizeFields(timeIN, timeOut, TIMES, TIMES, syncValue);
+synchronizeFields(timeInElement, timeOutElement, TIMES, TIMES, syncValue);
 
 const syncValueWithMin = (element, value) => {
   element.min = value;
 }
 
-synchronizeFields(type, priceInput, TYPES, PRICES, syncValueWithMin);
+synchronizeFields(typeElement, priceInputElement, TYPES, PRICES, syncValueWithMin);
 
-const titleInvalidHandler = () => {
-  if (title.validity.tooShort && title.validity.tooLong && title.validity.valueMissing) {
-    title.setAttribute('style', 'border-color: red');
+titleElement.addEventListener('invalid', () => {
+  if (titleElement.validity.tooShort) {
+    titleElement.setCustomValidity('Заголовок объявления должно иметь минимум 30-ть символов');
+  } else if (titleElement.validity.tooLong ) {
+    titleElement.setCustomValidity('Заголовок объявления не должен превышать  100-о символов');
+  } else if (titleElement.validity.valueMissing) {
+    titleElement.setCustomValidity('Обязательное поле');
   } else {
-    title.setCustomValidity('');
-    title.removeAttribute('style');
+    titleElement.setCustomValidity('');
   }
-};
-title.addEventListener('invalid', titleInvalidHandler);
+});
 
-const priceInputInvalidHander = () => {
-  if (priceInput.validity.rangeUnderflow && priceInput.validity.rangeOverflow && priceInput.validity.typeMismatch) {
-    priceInput.setAttribute('stile', 'border-color: red');
+priceInputElement.addEventListener('invalid', () => {
+  if (priceInputElement.validity.rangeUnderflow) {
+    priceInputElement.setCustomValidity('Минимальная цена: 1000');
+  } else if (priceInputElement.validity.rangeOverflow){
+    priceInputElement.setCustomValidity('Максимальная цена: 1000000');
+  } else if (priceInputElement.validity.typeMismatch) {
+    priceInputElement.setCustomValidity('Обязательное поле');
   } else {
-    priceInput.removeAttribute('style');
+    priceInputElement.setCustomValidity('');
   }
-}
-priceInput.addEventListener('invalid', priceInputInvalidHander);
+});
 
 const disableRoomSelects = () => {
-  for (let i = 0; i < roomCapacity.length; i++) {
-    roomCapacity[i].disabled = true;
+  for (let i = 0; i < roomCapacityElement.length; i++) {
+    roomCapacityElement[i].disabled = true;
   }
 };
 
 const roomNumberChangeHandler = (evt) => {
   disableRoomSelects();
   const chooseValue = (evt.target.value === '100') ? '0' : evt.target.value;
-  for (let i = 0; i < roomCapacity.length; i++) {
-    if (roomCapacity[i].value === chooseValue) {
-      roomCapacity[i].removeAttribute('disabled');
-    }
-    if (roomCapacity[i].value <= chooseValue && roomCapacity[i].value > 0) {
-      roomCapacity[i].removeAttribute('disabled');
+  for (let i = 0; i < roomCapacityElement.length; i++) {
+    if (roomCapacityElement[i].value === chooseValue) {
+      roomCapacityElement[i].removeAttribute('disabled');
+    } else if (roomCapacityElement[i].value <= chooseValue && roomCapacityElement[i].value < 0) {
+      roomCapacityElement[i].removeAttribute('disabled');
     }
   }
 };
-roomNumber.addEventListener('change', roomNumberChangeHandler);
+roomNumberElement.addEventListener('change', roomNumberChangeHandler);
+synchronizeFields(roomCapacityElement, roomNumberElement, ROOMS, CAPACITIES, syncValue);
