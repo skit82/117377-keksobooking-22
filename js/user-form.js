@@ -5,6 +5,12 @@ const ROOMS = ['100', '3', '2', '1'];
 const CAPACITIES = ['0', '3', '2', '1'];
 const TYPES = ['bungalow', 'flat', 'house', 'palace'];
 const PRICES = [0, 1000, 5000, 10000];
+const ROOMS_CAPACITIES = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
+};
 
 const timeInElement = document.querySelector('#timein');
 const timeOutElement = document.querySelector('#timeout');
@@ -73,14 +79,15 @@ const disableRoomSelects = () => {
 
 const roomNumberChangeHandler = (evt) => {
   disableRoomSelects();
-  const chooseValue = (evt.target.value === '100') ? '0' : evt.target.value;
-  for (let i = 0; i < roomCapacityElement.length; i++) {
-    if (roomCapacityElement[i].value === chooseValue) {
-      roomCapacityElement[i].removeAttribute('disabled');
-    } else if (roomCapacityElement[i].value <= chooseValue && roomCapacityElement[i].value < 0) {
-      roomCapacityElement[i].removeAttribute('disabled');
+  const countRooms = evt.target.value;
+  ROOMS_CAPACITIES[countRooms].forEach((element) => {
+    for (let i = 0; i < roomCapacityElement.length; i++) {
+      if (element == roomCapacityElement[i].value) {
+        roomCapacityElement[i].disabled = false;
+      }
     }
-  }
+  });
 };
 roomNumberElement.addEventListener('change', roomNumberChangeHandler);
-synchronizeFields(roomCapacityElement, roomNumberElement, ROOMS, CAPACITIES, syncValue);
+synchronizeFields(roomCapacityElement, roomNumberElement, CAPACITIES, ROOMS, syncValue);
+roomNumberElement.dispatchEvent(new Event('change'));
