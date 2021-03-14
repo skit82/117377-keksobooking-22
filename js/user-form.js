@@ -3,8 +3,6 @@
 const TIMES = ['12:00', '13:00', '14:00'];
 const ROOMS = ['100', '3', '2', '1'];
 const CAPACITIES = ['0', '3', '2', '1'];
-const TYPES = ['bungalow', 'flat', 'house', 'palace'];
-const PRICES = [0, 1000, 5000, 10000];
 const ROOMS_CAPACITIES = {
   '1': ['1'],
   '2': ['1', '2'],
@@ -13,7 +11,7 @@ const ROOMS_CAPACITIES = {
 };
 
 const MinPriceTypes = {
-  bungalo: 0,
+  bungalow: 0,
   flat: 1000,
   house: 5000,
   palace: 10000,
@@ -30,9 +28,12 @@ const roomNumberElement = document.querySelector('#room_number');
 const setMinPrice = () => {
   const selectedValue = MinPriceTypes[typeElement.value];
 
-  priceInputElement.setAttribute('min', selectedValue);
-  priceInputElement.setAttribute('max', selectedValue);
+  priceInputElement.min = selectedValue;
   priceInputElement.setAttribute('placeholder', selectedValue);
+
+  if (priceInputElement.value) {
+    priceInputElement.value = Math.max(priceInputElement.value, selectedValue);
+  }
 };
 typeElement.addEventListener('change', () => {
   setMinPrice();
@@ -57,19 +58,6 @@ const syncValue = (element, value) => {
 };
 
 synchronizeFields(timeInElement, timeOutElement, TIMES, TIMES, syncValue);
-
-// const priceValueHandler = () => {
-// priceInputElement.min = MinPriceTypes[typeElement.value];
-// };
-// priceValueHandler();
-// typeElement.addEventListener('change', priceValueHandler);
-
-const syncValueWithMin = (element, value) => {
-  element.min = value;
-};
-
-synchronizeFields(typeElement, priceInputElement, TYPES, PRICES, syncValueWithMin);
-synchronizeFields(typeElement, priceInputElement, TYPES, PRICES, syncValue);
 
 titleElement.addEventListener('invalid', () => {
   if (titleElement.validity.tooShort) {
