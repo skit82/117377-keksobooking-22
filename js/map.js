@@ -1,7 +1,10 @@
 'use strict'
 /* global L:readonly */
-import {offers} from './data.js';
-import {showPopup} from './card.js'
+// import {offers} from './data.js';
+import {showPopup} from './card.js';
+import {getData} from './app.js';
+
+const MAX_OFFERS_COUNT = 10;
 
 const disableForm = () => {
   const adForm = document.querySelector('.ad-form');
@@ -36,11 +39,14 @@ const enableForm = () => {
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    enableForm()
+    getData((data) => {
+      enableForm();
+      renderOffers(data);
+    });
   })
   .setView({
-    lat: 35.6895,
-    lng: 139.69171,
+    lat: 35.66332,
+    lng: 139.78141,
   },12);
 
 L.tileLayer(
@@ -58,8 +64,8 @@ const mainPinIcon = L.icon ({
 
 const mainPinMarker = L.marker (
   {
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: 35.66332,
+    lng: 139.78141,
   },
   {
     draggable: true,
@@ -71,36 +77,45 @@ mainPinMarker.addTo(map);
 
 const precisionFloat = 5;
 const inputAdress = document.querySelector('#address');
-inputAdress.value = `${(mainPinMarker._latlng.lat).toFixed(precisionFloat)}, ${(mainPinMarker._latlng.lng).toFixed(precisionFloat)}`
+inputAdress.value = `${(mainPinMarker._latlng.lat).toFixed(precisionFloat)}, ${(mainPinMarker._latlng.lng).toFixed(precisionFloat)}`;
 
 mainPinMarker.on('moveend', (evt) => {
   const latlng = evt.target.getLatLng();
   inputAdress.value = `${latlng.lat.toFixed(precisionFloat)}, ${latlng.lng.toFixed(precisionFloat)}`;
 });
 
-const pointsOffers = offers;
+const renderOffers = (data) => {
+  createMarkers(data);
+};
 
-pointsOffers.forEach((pointOffer) => {
-  const location = pointOffer.location;
+const resetAddress = () => inputAdress.value = `${(mainPinMarker._latlng.lat).toFixed(precisionFloat)}, ${(mainPinMarker._latlng.lng).toFixed(precisionFloat)}`;
 
-  const iconOffers = L.icon({
-    iconUrl: '/img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+const createMarkers = (pointsOffers) => {
+  const slicedOffersArray = pointsOffers.slice(0, MAX_OFFERS_COUNT);
+
+  slicedOffersArray.forEach((pointOffer) => {
+    const location = pointOffer.location;
+
+    const iconOffers = L.icon({
+      iconUrl: '/img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+
+    const {lat, lng} = location;
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        iconOffers,
+      },
+    );
+    marker
+      .addTo(map)
+      .bindPopup(() => showPopup(pointOffer));
   });
+};
 
-  const {lat, lng} = location;
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      iconOffers,
-    },
-  );
-  marker
-    .addTo(map)
-    .bindPopup(() => showPopup(pointOffer));
-});
-
+export {resetAddress, createMarkers};
