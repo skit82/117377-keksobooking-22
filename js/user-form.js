@@ -1,5 +1,9 @@
 'use strict'
 
+import {showSuccessPopup, showErrorPopup} from './alert.js';
+import {resetAddress} from './map.js';
+import {sendData} from './app.js';
+
 const TIMES = ['12:00', '13:00', '14:00'];
 const ROOMS = ['100', '3', '2', '1'];
 const CAPACITIES = ['0', '3', '2', '1'];
@@ -17,6 +21,7 @@ const MinPriceTypes = {
   palace: 10000,
 };
 
+const adForm = document.querySelector('.ad-form');
 const timeInElement = document.querySelector('#timein');
 const timeOutElement = document.querySelector('#timeout');
 const typeElement = document.querySelector('#type');
@@ -103,3 +108,28 @@ const roomNumberChangeHandler = (evt) => {
 roomNumberElement.addEventListener('change', roomNumberChangeHandler);
 synchronizeFields(roomCapacityElement, roomNumberElement, CAPACITIES, ROOMS, syncValue);
 roomNumberElement.dispatchEvent(new Event('change'));
+
+const resetForm = (evt) => {
+  evt.target.reset();
+  setTimeout(() => resetAddress(), 0);
+};
+
+const onFormReset = (evt) => resetForm(evt);
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  sendData(
+    () => {
+      resetForm(evt);
+      showSuccessPopup();
+    },
+    () => {
+      showErrorPopup();
+    },
+    new FormData(evt.target),
+  );
+};
+
+adForm.addEventListener('reset', onFormReset);
+adForm.addEventListener('submit', onFormSubmit);
