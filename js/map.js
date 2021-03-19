@@ -3,6 +3,7 @@
 // import {offers} from './data.js';
 import {showPopup} from './card.js';
 import {getData} from './app.js';
+import {filtersHandler} from './filters.js';
 
 const MAX_OFFERS_COUNT = 10;
 
@@ -36,6 +37,7 @@ const enableForm = () => {
     item.disabled = false;
   });
 };
+
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -85,10 +87,13 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 const renderOffers = (data) => {
+  filtersHandler(data);
   createMarkers(data);
 };
 
 const resetAddress = () => inputAdress.value = `${(mainPinMarker._latlng.lat).toFixed(precisionFloat)}, ${(mainPinMarker._latlng.lng).toFixed(precisionFloat)}`;
+
+const markers = [];
 
 const createMarkers = (pointsOffers) => {
   const slicedOffersArray = pointsOffers.slice(0, MAX_OFFERS_COUNT);
@@ -112,10 +117,16 @@ const createMarkers = (pointsOffers) => {
         iconOffers,
       },
     );
+    markers.push(marker);
+
     marker
       .addTo(map)
       .bindPopup(() => showPopup(pointOffer));
   });
 };
 
-export {resetAddress, createMarkers};
+const removeMarkers = () => {
+  markers.forEach((marker) => marker.remove());
+};
+
+export {resetAddress, createMarkers, MAX_OFFERS_COUNT, removeMarkers};
