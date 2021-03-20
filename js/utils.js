@@ -34,4 +34,14 @@ const getRandomArrayElements = (items) => {
 
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-export {getRandomInteger, getRandomFloat, getRandomElement, getRandomArrayElements, addLeadingZero, isEscEvent};
+const debounce = (fn, ms) => {
+  let timeout;
+
+  return function () {
+    const callFn = () => fn.apply(this, arguments);
+    clearTimeout(timeout);
+    timeout = setTimeout(callFn, ms);
+  };
+};
+
+export {getRandomInteger, getRandomFloat, getRandomElement, getRandomArrayElements, addLeadingZero, isEscEvent, debounce};

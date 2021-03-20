@@ -3,6 +3,7 @@
 import {showSuccessPopup, showErrorPopup} from './alert.js';
 import {resetAddress} from './map.js';
 import {sendData} from './app.js';
+import {filtersFormElement} from './filters.js';
 
 const TIMES = ['12:00', '13:00', '14:00'];
 const ROOMS = ['100', '3', '2', '1'];
@@ -112,6 +113,7 @@ roomNumberElement.dispatchEvent(new Event('change'));
 const resetForm = (evt) => {
   evt.target.reset();
   setTimeout(() => resetAddress(), 0);
+  filtersFormElement.reset();
 };
 
 const onFormReset = (evt) => resetForm(evt);

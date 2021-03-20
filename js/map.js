@@ -1,8 +1,9 @@
 'use strict'
 /* global L:readonly */
-// import {offers} from './data.js';
+
 import {showPopup} from './card.js';
 import {getData} from './app.js';
+import {filtersHandler} from './filters.js';
 
 const MAX_OFFERS_COUNT = 10;
 
@@ -36,6 +37,7 @@ const enableForm = () => {
     item.disabled = false;
   });
 };
+
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -85,12 +87,17 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 const renderOffers = (data) => {
-  createMarkers(data);
+  filtersHandler(data);
+  relnitMarkers(data);
 };
 
 const resetAddress = () => inputAdress.value = `${(mainPinMarker._latlng.lat).toFixed(precisionFloat)}, ${(mainPinMarker._latlng.lng).toFixed(precisionFloat)}`;
 
-const createMarkers = (pointsOffers) => {
+const markers = [];
+
+const relnitMarkers = (pointsOffers) => {
+  markers.forEach((marker) => marker.remove());
+
   const slicedOffersArray = pointsOffers.slice(0, MAX_OFFERS_COUNT);
 
   slicedOffersArray.forEach((pointOffer) => {
@@ -112,10 +119,12 @@ const createMarkers = (pointsOffers) => {
         iconOffers,
       },
     );
+    markers.push(marker);
+
     marker
       .addTo(map)
       .bindPopup(() => showPopup(pointOffer));
   });
 };
 
-export {resetAddress, createMarkers};
+export {resetAddress, relnitMarkers, MAX_OFFERS_COUNT};
