@@ -1,6 +1,6 @@
 'use strict'
 /* global L:readonly */
-// import {offers} from './data.js';
+
 import {showPopup} from './card.js';
 import {getData} from './app.js';
 import {filtersHandler} from './filters.js';
@@ -88,14 +88,16 @@ mainPinMarker.on('moveend', (evt) => {
 
 const renderOffers = (data) => {
   filtersHandler(data);
-  createMarkers(data);
+  relnitMarkers(data);
 };
 
 const resetAddress = () => inputAdress.value = `${(mainPinMarker._latlng.lat).toFixed(precisionFloat)}, ${(mainPinMarker._latlng.lng).toFixed(precisionFloat)}`;
 
 const markers = [];
 
-const createMarkers = (pointsOffers) => {
+const relnitMarkers = (pointsOffers) => {
+  markers.forEach((marker) => marker.remove());
+
   const slicedOffersArray = pointsOffers.slice(0, MAX_OFFERS_COUNT);
 
   slicedOffersArray.forEach((pointOffer) => {
@@ -125,8 +127,4 @@ const createMarkers = (pointsOffers) => {
   });
 };
 
-const removeMarkers = () => {
-  markers.forEach((marker) => marker.remove());
-};
-
-export {resetAddress, createMarkers, MAX_OFFERS_COUNT, removeMarkers};
+export {resetAddress, relnitMarkers, MAX_OFFERS_COUNT};

@@ -1,14 +1,10 @@
 'use strict'
-// import {offers} from './data.js'
 
 const IMG_WIDTH = 45;
 const IMG_HEIGHT = 40;
 const IMG_ALT = 'Фотография жилья';
 
-// const mapCardElement = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card').content;
-
-// const cardFragment = document.createDocumentFragment();
 
 const createFeatureItem = (item) => {
   const featureItem = document.createElement('li');
@@ -66,11 +62,8 @@ const showPopup = ({author,offer}) => {
   photosContainer.innerHTML = '';
   photosContainer.appendChild(createAndFillFragment(offer.photos, createPhotoElement));
   cardElement.querySelector('.popup__avatar').src = author.avatar;
-  // cardFragment.appendChild(cardElement);
-  // mapCardElement.appendChild(cardFragment);
 
   return cardElement;
 };
 
-// export (showPopup(offers));
 export {showPopup};

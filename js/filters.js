@@ -1,6 +1,6 @@
 'use strict'
 
-import {MAX_OFFERS_COUNT, createMarkers, removeMarkers} from './map.js';
+import {MAX_OFFERS_COUNT, relnitMarkers} from './map.js';
 import {debounce} from './utils.js';
 
 const NO_FILTER = 'any';
@@ -11,7 +11,7 @@ const RERENDER_DELAY = 500;
 
 const filtersFormElement = document.querySelector('.map__filters');
 
-const filtersHandler = (offersArray) => {
+const filtersHandler = (offers) => {
   const onFiltersFormChange = () => {
     const typeFilterValue = filtersFormElement.querySelector('#housing-type').value;
     const priceFilterValue = filtersFormElement.querySelector('#housing-price').value;
@@ -56,28 +56,27 @@ const filtersHandler = (offersArray) => {
       return result;
     };
 
-    const sortingByType = ({offer}) => isOfferMatchFilter(typeFilterValue, offer.type);
-    const sortingByPrice = ({offer}) => isOfferMatchPrice(offer.price);
-    const sortingByRooms = ({offer}) => isOfferMatchFilter(roomsFilterValue, offer.rooms);
-    const sortingByGuests = ({offer}) => isOfferMatchFilter(guestsFilterValue, offer.guests);
-    const sortingByFeatures = ({offer}) => isOfferMatchFeatures(offer.features);
+    const filterByType = ({offer}) => isOfferMatchFilter(typeFilterValue, offer.type);
+    const filterByPrice = ({offer}) => isOfferMatchPrice(offer.price);
+    const filterByRooms = ({offer}) => isOfferMatchFilter(roomsFilterValue, offer.rooms);
+    const filterByGuests = ({offer}) => isOfferMatchFilter(guestsFilterValue, offer.guests);
+    const filterByFeatures = ({offer}) => isOfferMatchFeatures(offer.features);
 
-    const sortedOfferArray = offersArray
-      .filter(sortingByType)
-      .filter(sortingByPrice)
-      .filter(sortingByRooms)
-      .filter(sortingByGuests)
-      .filter(sortingByFeatures)
+    const sortedOffer = offers
+      .filter(filterByType)
+      .filter(filterByPrice)
+      .filter(filterByRooms)
+      .filter(filterByGuests)
+      .filter(filterByFeatures)
       .slice(0, MAX_OFFERS_COUNT);
-    removeMarkers();
-    createMarkers(sortedOfferArray);
+
+    relnitMarkers(sortedOffer);
   };
 
   const onFiltersFormDebouncedChange = debounce(onFiltersFormChange, RERENDER_DELAY);
 
   const onfiltersFormReset = () => {
-    removeMarkers();
-    createMarkers(offersArray);
+    relnitMarkers(offers);
   };
 
   filtersFormElement.addEventListener('change', onFiltersFormDebouncedChange);
