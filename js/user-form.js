@@ -101,7 +101,7 @@ const initUserForm = () => {
     const countRooms = evt.target.value;
     ROOMS_CAPACITIES[countRooms].forEach((element) => {
       for (let i = 0; i < roomCapacityElement.length; i++) {
-        if (element == roomCapacityElement[i].value) {
+        if (element === roomCapacityElement[i].value) {
           roomCapacityElement[i].disabled = false;
         }
       }
