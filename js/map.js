@@ -2,10 +2,11 @@
 /* global L:readonly */
 
 import {showPopup} from './card.js';
-import {getData} from './app.js';
+import {getData} from './api.js';
 import {filtersHandler} from './filters.js';
 
 const MAX_OFFERS_COUNT = 10;
+
 
 const disableForm = () => {
   const adForm = document.querySelector('.ad-form');
@@ -92,6 +93,7 @@ const renderOffers = (data) => {
 };
 
 const resetAddress = () => inputAdress.value = `${(mainPinMarker._latlng.lat).toFixed(precisionFloat)}, ${(mainPinMarker._latlng.lng).toFixed(precisionFloat)}`;
+
 
 const markers = [];
 
